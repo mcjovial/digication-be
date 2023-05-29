@@ -10,7 +10,7 @@ export enum VersionType {
 }
 
 
-ObjectType('PortfolioVersion')
+@ObjectType('PortfolioVersion')
 @Entity()
 export class PortfolioVersionEntity {
   @Field()
@@ -20,10 +20,12 @@ export class PortfolioVersionEntity {
   @Field()
   @Column({ type: 'enum', enum: VersionType, default: VersionType.DRAFT })
   versionType: VersionType;
-
-  @ManyToOne(() => PortfolioEntity)
+  
+  @Field(() => PortfolioEntity)
+  @ManyToOne(() => PortfolioEntity, { eager: true })
   portfolio: PortfolioEntity;
-
+  
+  @Field(() => [PageEntity])
   @OneToMany(() => PageEntity, (page: PageEntity) => page.portfolioVersion)
   pages: PageEntity[];
 }

@@ -2,7 +2,7 @@ import { Service } from "typedi";
 import { InjectRepository } from "typeorm-typedi-extensions";
 import { VersionType } from "../entities/PortfolioVersionEntity";
 import { PortfolioRepository } from "../repositories/portfolios.repository";
-import { PortfolioVersionRepository } from "../repositories/portfolio-versions.repository";
+import { PortfolioVersionRepository } from "../repositories/portfolioVersions.repository";
 import PortfolioEntity from "../entities/PortfolioEntity";
 
 @Service()
@@ -14,8 +14,13 @@ export class PortfolioService {
   private readonly portfolioVersionRepository: PortfolioVersionRepository;
 
   async createPortfolio(name: string, url: string): Promise<PortfolioEntity> {
-    const existingPortfolio = await this.portfolioRepository.findOne({ where: { name, url } });
-    if (existingPortfolio) throw new Error('Portfolio already exists');
+    // eslint-disable-next-line no-console
+    console.log('>>>>>', name, url);
+
+    const existingPortfolio = await this.portfolioRepository.findOne({
+      where: { name, url },
+    });
+    if (existingPortfolio) throw new Error("Portfolio already exists");
 
     const newPortfolio = this.portfolioRepository.create({ name, url });
     await this.portfolioRepository.save(newPortfolio);
@@ -32,9 +37,11 @@ export class PortfolioService {
 
   async getAllPortfolios(): Promise<PortfolioEntity[]> {
     const portfolios = await this.portfolioRepository
-      .createQueryBuilder('p')
+      .createQueryBuilder("p")
+      .leftJoinAndSelect("p.pages", "pages")
+      .leftJoinAndSelect("p.versions", "versions")
       .getMany();
-    
+
     return portfolios;
   }
 }

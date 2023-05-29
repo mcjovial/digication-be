@@ -17,10 +17,12 @@ export default class PageEntity {
   @Field()
   @Column('varchar', { nullable: false, unique: true })
   url: string;
-
+  
+  @Field(() => PortfolioEntity)
   @ManyToOne(() => PortfolioEntity, { nullable: false })
   portfolio: PortfolioEntity;
-
+  
+  @Field(() => PortfolioVersionEntity)
   @ManyToOne(() => PortfolioVersionEntity, (portfolioVersion: PortfolioVersionEntity) => portfolioVersion.pages)
   portfolioVersion: PortfolioVersionEntity
 }

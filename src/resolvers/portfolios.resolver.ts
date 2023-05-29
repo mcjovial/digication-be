@@ -6,10 +6,11 @@ import { PortfolioService } from "../services/portfolios.service";
 @Resolver(() => PortfolioEntity)
 @Service()
 export class PortfolioResolver {
-  private readonly portfolioService: PortfolioService;
+  // eslint-disable-next-line no-useless-constructor
+  constructor(private readonly portfolioService: PortfolioService) {}
 
-  @Mutation(() => PortfolioEntity)
-  async createPortfolio(@Arg('name') name: string, @Arg('url') url: string): Promise<PortfolioEntity> {
+  @Mutation(() => PortfolioEntity, { description: "Create a portfolio" })
+  async createPortfolio(@Arg('name') name: string, @Arg('url') url: string): Promise<PortfolioEntity> {    
     const newPortfolio = await this.portfolioService.createPortfolio(name, url);
     return newPortfolio;
   }
