@@ -16,3 +16,4 @@ schema.gql
 yarn-error.log
 vendor
 .eslintcache
+pgdata

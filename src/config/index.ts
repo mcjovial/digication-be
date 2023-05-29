@@ -1,4 +1,8 @@
+// eslint-disable-next-line import/no-extraneous-dependencies
+import * as dotenv from 'dotenv';
 import ConfigInterface from './ConfigInterface';
+
+dotenv.config({ path: '.env' });
 
 const env = process.env.NODE_ENV as 'development' | 'production';
 
