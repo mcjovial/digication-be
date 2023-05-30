@@ -1,0 +1,56 @@
+type PortfolioVersion {
+  id: String!
+  versionType: String!
+  portfolio: Portfolio!
+  pages: [Page!]!
+}
+
+type Portfolio {
+  id: String!
+  name: String!
+  url: String!
+  pages: [Page!]!
+  versions: [PortfolioVersion!]!
+}
+
+type Page {
+  id: String!
+  name: String!
+  url: String!
+  portfolio: Portfolio!
+  portfolioVersion: PortfolioVersion!
+}
+
+type Query {
+  # get all portfolio pages for a given a portfolio version
+  getAllPagesForAPortfolioVersion(portfolioVersionId: String!): [Page!]!
+
+  # Get all pages
+  getAllPages: [Page!]!
+
+  # List all portfolios
+  getAllPortfolios: [Portfolio!]!
+
+  # Get all available portfolio versions
+  getAllAvailablePortfolioVersions: [PortfolioVersion!]!
+}
+
+type Mutation {
+  # Create a page
+  createPage(portfolioId: String!, url: String!, name: String!): Page!
+
+  # Change the portfolio version of a page
+  changePortfolioVersionOfPage(versionId: String!, pageId: String!): Page!
+
+  # Create a portfolio
+  createPortfolio(url: String!, name: String!): Portfolio!
+
+  # Create a snapshot from a draft version
+  createSnapshotFromDraft(
+    pagesId: [String!]!
+    portfolioId: String!
+  ): PortfolioVersion!
+
+  # Create a published version for a portfolio
+  createPublishedPortfolioVersion(portfolioId: String!): PortfolioVersion!
+}
