@@ -1,40 +1,23 @@
-version: '3.7'
+version: '3'
 
 services:
-  api:
-    container_name: digication-graph-api
+  app:
     build:
       context: .
       dockerfile: Dockerfile
-      target: development
-    ports:
-      - '4000:4000'
+      target: test
     env_file:
       - .env
-    depends_on:
-      - db
     volumes:
       - .:/app
       - /app/node_modules
-    command: yarn dev
+    depends_on:
+      - postgres
+    command: yarn test
 
-  db:
+  postgres:
     image: postgres
-    restart: always
     env_file:
-      - .env
+      - .env.test
     ports:
       - "5432:5432"
-    volumes:
-      - ./pgdata:/var/lib/postgresql/data
-
-  pgadmin:
-    image: dpage/pgadmin4
-    restart: always
-    environment:
-      PGADMIN_DEFAULT_EMAIL: admin@admin.com
-      PGADMIN_DEFAULT_PASSWORD: admin
-    ports:
-      - "8080:80"
-    depends_on:
-      - db

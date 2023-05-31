@@ -1,8 +1,8 @@
-import PortfolioEntity from '../../src/entities/PortfolioEntity';
-import createApolloServer from '../test_helpers/createApolloServer';
-import createPortfolioEntity from '../test_helpers/createPortfolioHelper';
+import PortfolioEntity from "../../src/entities/portfolio.entity";
+import createApolloServer from "../test_helpers/createApolloServer";
+import createPortfolioEntity from "../test_helpers/createPortfolioHelper";
 
-describe('ListPortfoliosResolver', () => {
+describe("ListPortfoliosResolver", () => {
   const QUERY = `
     query ListPortfolios {
       listPortfolios {
@@ -22,7 +22,7 @@ describe('ListPortfoliosResolver', () => {
     portfolio3 = await createPortfolioEntity();
   });
 
-  test('return 3 items', async () => {
+  test("return 3 items", async () => {
     const server = createApolloServer();
     const response = await server.executeOperation({
       query: QUERY,
