@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: digication-graphql
+spec:
+  selector:
+    matchLabels:
+      app: digication-graphql
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: digication-graphql
+    spec:
+      containers:
+      - name: digication-graphql
+        image: mcjovial/digication-graphql
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 5000

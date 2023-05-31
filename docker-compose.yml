@@ -1,6 +1,23 @@
 version: '3.7'
 
 services:
+  api:
+    container_name: digication-graph-api
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: development
+    ports:
+      - '4000:4000'
+    env_file:
+      - .env
+    depends_on:
+      - db
+    volumes:
+      - .:/app
+      - /app/node_modules
+    command: yarn dev
+
   db:
     image: postgres
     restart: always
